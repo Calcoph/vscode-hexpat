@@ -1,0 +1,25 @@
+{
+    "name": "vscode-hexpat",
+    "displayName": "Imhex Hexpat support",
+    "description": "Syntax highlightin for Imhex's pattern language",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.69.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "hexpat",
+            "aliases": ["Hexpat", "hexpat"],
+            "extensions": [".hexpat"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "hexpat",
+            "scopeName": "source.hexpat",
+            "path": "./syntaxes/hexpat.tmLanguage.json"
+        }]
+    }
+}

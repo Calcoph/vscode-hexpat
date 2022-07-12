@@ -2,31 +2,226 @@
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "Hexpat",
 	"patterns": [
-		{
-			"include": "#keywords"
-		},
-		{
-			"include": "#strings"
-		}
+        {
+            "include": "#expression"
+        }
 	],
 	"repository": {
+        "expression": {
+            "patterns": [
+                {"include": "#scope"},
+                {"include": "#type"},
+                {"include": "#typeunsigned"},
+                {"include": "#line-comment"},
+                {"include": "#block-comment"},
+                {"include": "#endianness"},
+                {"include": "#type-signed"},
+                {"include": "#type-float"},
+                {"include": "#type-special"},
+                {"include": "#type"},
+                {"include": "#string"},
+                {"include": "#char"},
+                {"include": "#array"},
+                {"include": "#semicolon"},
+                {"include": "#coma"},
+                {"include": "#constant-numeric-dec"},
+                {"include": "#constant-numeric-hex"},
+                {"include": "#constant-numeric-oct"},
+                {"include": "#constant-numeric-bin"},
+                {"include": "#constant-numeric-float"},
+                {"include": "#constant-numeric-double"},
+                {"include": "#constant-language-boolean"},
+                {"include": "#include-"},
+                {"include": "#struct"},
+                {"include": "#operator"},
+                {"include": "#tpyeoperator"},
+                {"include": "#member-access"},
+                {"include": "#parent"},
+                {"include": "#this"},
+                {"include": "#dollar"}
+            ]
+        },
 		"keywords": {
 			"patterns": [{
 				"name": "keyword.control.hexpat",
-				"match": "\\b(if|while|for|return)\\b"
+				"match": "(if|while|for|return)"
 			}]
 		},
-		"strings": {
-			"name": "string.quoted.double.hexpat",
-			"begin": "\"",
-			"end": "\"",
-			"patterns": [
+        "keywords2": {
+			"patterns": [{
+				"name": "keyword.control.hexpat",
+				"match": "(using|union|enum|bitfield|if|else|false|true|this|parent|addressof|sizeof|$|while|for|fn|return|break|continue|namespace|in|out)"
+			}]
+		},
+        "paren-expression": {
+            "begin": "\\(",
+            "end": "\\)",
+            "beginCaptures": {
+                "0": { "name": "punctuation.paren.opn" }
+            },
+            "endCaptures": {
+                "0": { "name": "punctuation.paren.close" }
+            },
+            "name": "expression.group"
+        },
+        "scope": {
+            "begin": "{",
+            "end": "}",
+            "beginCaptures": {
+                "0": { "name": "punctuation.scope.opn" }
+            },
+            "endCaptures": {
+                "0": { "name": "punctuation.scope.close" }
+            },
+            "name": "scope.group",
+            "patterns": [{ "include": "#expression" }]
+        },
+        "typeunsigned": {
+            "match": "\\bu(8|16|32|64|128)\\b",
+            "name": "storage.type.unsigned.hexpat"
+        },
+        "type-signed": {
+            "name": "storage.type.signed.hexpat",
+            "match": "\\bs(8|16|32|64|128)\\b"
+        },
+        "type-float": {
+            "name": "storage.type.float.hexpat",
+            "match": "\\b(float|double)\\b"
+        },
+        "type-special": {
+            "name": "storage.type.special.hexpat",
+            "match": "\\b(char|char16|bool|padding|str|auto)\\b"
+        },
+        "type": {
+            "name": "storage.type.hexpat",
+            "match": "struct"
+        },
+        "endianness": {
+            "name": "storage.modifier.endianness.hexpat",
+            "match": "\\b(be|le)\\b"
+        },
+        "line-comment": {
+            "name": "comment.line.double-slash.hexpat",
+            "match": "//.*"
+        },
+        "block-comment": {
+            "name": "comment.block.hexpat",
+            "begin": "/\\*",
+            "end": "\\*/",
+            "beginCaptures": {
+                "0": { "name": "punctuation.definition.comment.begin.hexpat" }
+            },
+            "endCaptures": {
+                "0": { "name": "punctuation.definition.comment.end.hexpat" }
+            }
+        },
+        "string": {
+            "name": "string.quoted.double.hexpat",
+            "begin": "\"",
+            "end": "\"",
+            "beginCaptures": {
+                "0": { "name": "punctuation.definition.begin.string.quoted.double.hexpat" }
+            },
+            "endCaptures": {
+                "0": { "name": "punctuation.definition.end.string.quoted.double.hexpat" }
+            }
+        },
+        "char": {
+            "name": "string.quoted.single.hexpat",
+            "begin": "'",
+            "end": "'",
+            "beginCaptures": {
+                "0": { "name": "punctuation.definition.begin.string.quoted.single.hexpat" }
+            },
+            "endCaptures": {
+                "0": { "name": "punctuation.definition.end.string.quoted.single.hexpat" }
+            },
+            "patterns": [
 				{
 					"name": "constant.character.escape.hexpat",
 					"match": "\\\\."
 				}
 			]
-		}
+        },
+        "array": {
+            "name": "punctuation.brackets.square.hexpat",
+            "begin": "\"",
+            "end": "\"",
+            "beginCaptures": {
+                "0": { "name": "punctuation.definition.begin.brackets.square.hexpat" }
+            },
+            "endCaptures": {
+                "0": { "name": "punctuation.definition.end.brackets.square.hexpat" }
+            }
+        },
+        "semicolon": {
+            "name": "punctuation.terminator.statement.hexpat",
+            "match": ";"
+        },
+        "coma": {
+            "name": "punctuation.separator.delimeter.hexpat",
+            "match": ","
+        },
+        "constant-numeric-dec": {
+            "name": "constant.numeric.dec.hexpat",
+            "match": "\\b-?\\d+U?\\b"
+        },
+        "constant-numeric-hex": {
+            "name": "constant.numeric.hex.hexpat",
+            "match": "\\b0(x|X)\\d+\\b"
+        },
+        "constant-numeric-oct": {
+            "name": "constant.numeric.oct.hexpat",
+            "match": "\\b0(o|O)\\d+\\b"
+        },
+        "constant-numeric-bin": {
+            "name": "constant.numeric.bin.hexpat",
+            "match": "\\b0(b|B)\\d+\\b"
+        },
+        "constant-numeric-float": {
+            "name": "constant.numeric.float.hexpat",
+            "match": "\\b-?\\d+\\.\\d*F\\b"
+        },
+        "constant-numeric-double": {
+            "name": "constant.numeric.double.hexpat",
+            "match": "\\b-?\\d+\\.\\d*D?\\b"
+        },
+        "constant-language-boolean": {
+            "name": "constant.language.bool.hexpat",
+            "match": "\\b(true|false)\\b"
+        },
+        "include-": {
+            "name": "include.hexpat",
+            "match": "^#.*"
+        },
+        "struct": {
+            "name": "keyword.declaration.struct.hexpat",
+            "match": "\\bstruct\\b"
+        },
+        "operator": {
+            "name": "keyword.operator.hexpat",
+            "match": "(\\+|-|\\*|/|%|>>|<<|~|&|\\||\\^|==|!=|>|<|>=|<=|!|&&|\\|\\||\\^\\^|\\?|:)"
+        },
+        "tpyeoperator": {
+            "name": "entity.name.function.hexpat",
+            "match": "\\b(addressof|sizeof)\\b"
+        },
+        "member-access": {
+            "name": "punctuation.operator.access.dot.hexpat",
+            "match": "\\."
+        },
+        "parent": {
+            "name": "variable.language.parent.hexpat",
+            "match": "\\bparent\\b"
+        },
+        "this": {
+            "name": "variable.language.this.hexpat",
+            "match": "\\bthis\\b"
+        },
+        "dollar": {
+            "name": "variable.language.dollar.hexpat",
+            "match": "\\$"
+        }
 	},
 	"scopeName": "source.hexpat"
 }

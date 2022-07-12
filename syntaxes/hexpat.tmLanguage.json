@@ -9,12 +9,14 @@
 	"repository": {
         "expression": {
             "patterns": [
+                {"include": "#keywords"},
+                {"include": "#paren-expression"},
                 {"include": "#scope"},
                 {"include": "#type"},
-                {"include": "#typeunsigned"},
                 {"include": "#line-comment"},
                 {"include": "#block-comment"},
                 {"include": "#endianness"},
+                {"include": "#type-unsigned"},
                 {"include": "#type-signed"},
                 {"include": "#type-float"},
                 {"include": "#type-special"},
@@ -41,26 +43,20 @@
                 {"include": "#dollar"}
             ]
         },
-		"keywords": {
+        "keywords": {
 			"patterns": [{
 				"name": "keyword.control.hexpat",
-				"match": "(if|while|for|return)"
-			}]
-		},
-        "keywords2": {
-			"patterns": [{
-				"name": "keyword.control.hexpat",
-				"match": "(using|union|enum|bitfield|if|else|false|true|this|parent|addressof|sizeof|$|while|for|fn|return|break|continue|namespace|in|out)"
+				"match": "\\b(using|union|enum|bitfield|if|else|while|for|fn|return|break|continue|namespace|in|out)\\b"
 			}]
 		},
         "paren-expression": {
             "begin": "\\(",
             "end": "\\)",
             "beginCaptures": {
-                "0": { "name": "punctuation.paren.opn" }
+                "0": { "name": "punctuation.begin.bracket.round.hexpat" }
             },
             "endCaptures": {
-                "0": { "name": "punctuation.paren.close" }
+                "0": { "name": "punctuation.end.bracket.round.hexpat" }
             },
             "name": "expression.group"
         },
@@ -68,15 +64,15 @@
             "begin": "{",
             "end": "}",
             "beginCaptures": {
-                "0": { "name": "punctuation.scope.opn" }
+                "0": { "name": "punctuation.begin.bracket.curly.hexpat" }
             },
             "endCaptures": {
-                "0": { "name": "punctuation.scope.close" }
+                "0": { "name": "punctuation.end.bracket.curly.hexpat" }
             },
             "name": "scope.group",
             "patterns": [{ "include": "#expression" }]
         },
-        "typeunsigned": {
+        "type-unsigned": {
             "match": "\\bu(8|16|32|64|128)\\b",
             "name": "storage.type.unsigned.hexpat"
         },

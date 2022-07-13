@@ -23,6 +23,7 @@
                 {"include": "#type"},
                 {"include": "#string"},
                 {"include": "#char"},
+                {"include": "#attribute"},
                 {"include": "#array"},
                 {"include": "#semicolon"},
                 {"include": "#coma"},
@@ -34,13 +35,15 @@
                 {"include": "#constant-numeric-double"},
                 {"include": "#constant-language-boolean"},
                 {"include": "#include-"},
+                {"include": "#directive"},
                 {"include": "#struct"},
                 {"include": "#operator"},
                 {"include": "#tpyeoperator"},
                 {"include": "#member-access"},
                 {"include": "#parent"},
                 {"include": "#this"},
-                {"include": "#dollar"}
+                {"include": "#dollar"},
+                {"include": "#namespace-operator"}
             ]
         },
         "keywords": {
@@ -58,7 +61,8 @@
             "endCaptures": {
                 "0": { "name": "punctuation.end.bracket.round.hexpat" }
             },
-            "name": "expression.group"
+            "name": "expression.group.hexpat",
+            "patterns": [{ "include": "#expression" }]
         },
         "scope": {
             "begin": "{",
@@ -69,7 +73,7 @@
             "endCaptures": {
                 "0": { "name": "punctuation.end.bracket.curly.hexpat" }
             },
-            "name": "scope.group",
+            "name": "scope.group.hexpat",
             "patterns": [{ "include": "#expression" }]
         },
         "type-unsigned": {
@@ -139,16 +143,29 @@
 				}
 			]
         },
-        "array": {
-            "name": "punctuation.brackets.square.hexpat",
-            "begin": "\"",
-            "end": "\"",
+        "attribute": {
+            "name": "meta.attribute.brackets.square.hexpat",
+            "begin": "\\[\\[",
+            "end": "\\]\\]",
             "beginCaptures": {
-                "0": { "name": "punctuation.definition.begin.brackets.square.hexpat" }
+                "0": { "name": "punctuation.attribute.begin.brackets.square.hexpat" }
             },
             "endCaptures": {
-                "0": { "name": "punctuation.definition.end.brackets.square.hexpat" }
-            }
+                "0": { "name": "punctuation.attribute.end.brackets.square.hexpat" }
+            },
+            "patterns": [{ "include": "#expression" }]
+        },
+        "array": {
+            "name": "meta.access.brackets.square.hexpat",
+            "begin": "\\[",
+            "end": "\\]",
+            "beginCaptures": {
+                "0": { "name": "punctuation.access.begin.brackets.square.hexpat" }
+            },
+            "endCaptures": {
+                "0": { "name": "punctuation.access.end.brackets.square.hexpat" }
+            },
+            "patterns": [{ "include": "#expression" }]
         },
         "semicolon": {
             "name": "punctuation.terminator.statement.hexpat",
@@ -164,15 +181,15 @@
         },
         "constant-numeric-hex": {
             "name": "constant.numeric.hex.hexpat",
-            "match": "\\b0(x|X)\\d+\\b"
+            "match": "\\b0(x|X)[0-9a-fA-F]+\\b"
         },
         "constant-numeric-oct": {
             "name": "constant.numeric.oct.hexpat",
-            "match": "\\b0(o|O)\\d+\\b"
+            "match": "\\b0(o|O)[0-7]+\\b"
         },
         "constant-numeric-bin": {
             "name": "constant.numeric.bin.hexpat",
-            "match": "\\b0(b|B)\\d+\\b"
+            "match": "\\b0(b|B)[01]+\\b"
         },
         "constant-numeric-float": {
             "name": "constant.numeric.float.hexpat",
@@ -187,8 +204,47 @@
             "match": "\\b(true|false)\\b"
         },
         "include-": {
-            "name": "include.hexpat",
-            "match": "^#.*"
+            "name": "meta.preprocessor.directive.include.hexpat",
+            "begin": "^(#)(include)",
+            "end": "$",
+            "beginCaptures": {
+                "1": { "name": "punctuation.definition.directive.include.hexpat" },
+                "2": { "name": "keyword.control.directive.include.hexpat" }
+            },
+            "contentName": "keword.other.directive.include.hexpat",
+            "patterns": [
+                {
+                    "name": "meta.definition.directive.include.parameter.bracket.angle.hexpat",
+                    "begin": "<",
+                    "end": ">",
+                    "beginCaptures": {
+                        "0": { "name": "punctuation.definition.directive.include.paramenter.begin.bracket.angle.hexpat" }
+                    },
+                    "endCaptures": {
+                        "0": { "name": "punctuation.definition.directive.include.paramenter.end.bracket.angle.hexpat" }
+                    }
+                },
+                {
+                    "name": "meta.definition.directive.include.parameter.quote.double.hexpat",
+                    "begin": "\"",
+                    "end": "\"",
+                    "beginCaptures": {
+                        "0": { "name": "punctuation.definition.directive.include.paramenter.begin.quote.double.hexpat" }
+                    },
+                    "endCaptures": {
+                        "0": { "name": "punctuation.definition.directive.include.paramenter.end.quote.double.end.hexpat" }
+                    }
+                }
+            ]
+        },
+        "directive": {
+            "name": "meta.preprocessor.directive.hexpat",
+            "begin": "^#",
+            "end": "$",
+            "beginCaptures": {
+                "0": { "name": "punctuation.definition.directive.hexpat" }
+            },
+            "contentName": "keword.other.directive.hexpat"
         },
         "struct": {
             "name": "keyword.declaration.struct.hexpat",
@@ -196,7 +252,11 @@
         },
         "operator": {
             "name": "keyword.operator.hexpat",
-            "match": "(\\+|-|\\*|/|%|>>|<<|~|&|\\||\\^|==|!=|>|<|>=|<=|!|&&|\\|\\||\\^\\^|\\?|:)"
+            "match": "(\\+|-|\\*|/|%|>>|<<|~|&|\\||\\^|==|!=|>|<|>=|<=|!|&&|\\|\\||\\^\\^|=|@)"
+        },
+        "namespace-operator": {
+            "name": "keyword.operator.namespace.hexpat",
+            "match": "::"
         },
         "tpyeoperator": {
             "name": "entity.name.function.hexpat",

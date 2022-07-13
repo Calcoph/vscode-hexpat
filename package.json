@@ -13,7 +13,7 @@
         "languages": [{
             "id": "hexpat",
             "aliases": ["Hexpat", "hexpat"],
-            "extensions": [".hexpat"],
+            "extensions": [".hexpat", ".pat"],
             "configuration": "./language-configuration.json"
         }],
         "grammars": [{

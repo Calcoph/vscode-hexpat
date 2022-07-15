@@ -38,7 +38,7 @@
                 {"include": "#directive"},
                 {"include": "#struct"},
                 {"include": "#operator"},
-                {"include": "#tpyeoperator"},
+                {"include": "#typeoperator"},
                 {"include": "#member-access"},
                 {"include": "#parent"},
                 {"include": "#this"},
@@ -94,7 +94,7 @@
         },
         "type": {
             "name": "storage.type.hexpat",
-            "match": "struct"
+            "match": "\\bstruct\\b"
         },
         "endianness": {
             "name": "storage.modifier.endianness.hexpat",
@@ -258,7 +258,7 @@
             "name": "keyword.operator.namespace.hexpat",
             "match": "::"
         },
-        "tpyeoperator": {
+        "typeoperator": {
             "name": "entity.name.function.hexpat",
             "match": "\\b(addressof|sizeof)\\b"
         },

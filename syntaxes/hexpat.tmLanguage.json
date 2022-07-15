@@ -143,6 +143,7 @@
             "name": "storage.type.special.hexpat",
             "match": "\\b(char|char16|bool|padding|str|auto)\\b"
         },
+
         "endianness": {
             "name": "storage.modifier.endianness.hexpat",
             "match": "\\b(be|le)\\b"

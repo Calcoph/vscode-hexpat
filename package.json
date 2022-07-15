@@ -4,7 +4,7 @@
     "description": "Syntax highlightin for Imhex's pattern language",
     "version": "0.1.0",
     "engines": {
-        "vscode": "^1.69.0"
+        "vscode": "^1.68.0"
     },
     "categories": [
         "Programming Languages"

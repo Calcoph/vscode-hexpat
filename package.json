@@ -24,5 +24,6 @@
     },
     "repository": {
         "url": "https://github.com/Calcoph/vscode-hexpat"
-    }
+    },
+    "publisher": "calcoph"
 }

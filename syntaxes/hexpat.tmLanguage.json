@@ -102,16 +102,16 @@
         "keywords": {
 			"patterns": [{
 				"name": "keyword.control.hexpat",
-				"match": "\\b(using|union|enum|if|else|while|for|fn|return|break|continue|namespace|in|out)\\b"
+				"match": "\\s*\\b(using|union|enum|if|else|while|for|fn|return|break|continue|namespace|in|out)\\b"
 			}]
 		},
         "function-definition": {
             "name": "meta.function.definition.hexpat",
-            "match": "\\bfn\\s+[_a-zA-Z]+[_a-zA-Z0-9]*\\b"
+            "match": "\\s*\\bfn\\s+[_a-zA-Z]+[_a-zA-Z0-9]*\\b"
         },
         "function": {
             "name": "support.function.hexpat",
-            "match": "\\b([_a-zA-Z]+[_a-zA-Z0-9]*)\\s+\\(\\b",
+            "match": "\\s*\\b([_a-zA-Z]+[_a-zA-Z0-9]*)\\s+\\(\\b",
             "captures": {
                 "1": { "name": "variable.function.hexpat"}
             }
@@ -131,10 +131,10 @@
             "patterns": [{ "include": "#expression" }]
         },
         "variable": {
-            "match": "^\\s*(?<!u(?:8|16|32|64|128)|s(?:8|16|32|64|128)|(?:float|double)|(?:char|char16|bool|padding|str|auto))([_a-zA-Z]+[_a-zA-Z0-9]*)\\s+(?:\\s*([_a-zA-Z]+[_a-zA-Z0-9]*),?)*",
+            "match": "^\\s*([_a-zA-Z]+?[_a-zA-Z0-9]*)\\b(?:\\s*([_a-zA-Z]+[_a-zA-Z0-9]*),?)*",
             "captures": {
                 "1": { "name": "storage.type.hexpat" },
-                "2": { "name": "variable.hexpat" }
+                "0": { "name": "variable.hexpat" }
             }
         },
         "scope": {
@@ -150,24 +150,24 @@
             "patterns": [{ "include": "#expression" }]
         },
         "type-unsigned": {
-            "match": "\\bu(8|16|32|64|128)\\b",
+            "match": "\\s*\\bu(8|16|32|64|128)\\b",
             "name": "storage.type.unsigned.hexpat"
         },
         "type-signed": {
             "name": "storage.type.signed.hexpat",
-            "match": "\\bs(8|16|32|64|128)\\b"
+            "match": "\\s*\\bs(8|16|32|64|128)\\b"
         },
         "type-float": {
             "name": "storage.type.float.hexpat",
-            "match": "\\b(float|double)\\b"
+            "match": "\\s*\\b(float|double)\\b"
         },
         "type-special": {
             "name": "storage.type.special.hexpat",
-            "match": "\\b(char|char16|bool|padding|str|auto)\\b"
+            "match": "\\s*\\b(char|char16|bool|padding|str|auto)\\b"
         },
         "endianness": {
             "name": "storage.modifier.endianness.hexpat",
-            "match": "\\b(be|le)\\b"
+            "match": "\\s*\\b(be|le)\\b"
         },
         "line-comment": {
             "name": "comment.line.double-slash.hexpat",
@@ -246,15 +246,15 @@
         },
         "constant-numeric-dec": {
             "name": "constant.numeric.dec.hexpat",
-            "match": "\\b-?\\d+U?\\b"
+            "match": "\\s*\\b-?\\d+U?\\b"
         },
         "constant-numeric-hex": {
             "name": "constant.numeric.hex.hexpat",
-            "match": "\\b0(x|X)[0-9a-fA-F]+\\b"
+            "match": "\\s*\\b0(x|X)[0-9a-fA-F]+\\b"
         },
         "constant-numeric-oct": {
             "name": "constant.numeric.oct.hexpat",
-            "match": "\\b0(o|O)[0-7]+\\b"
+            "match": "\\s*\b0(o|O)[0-7]+\\b"
         },
         "constant-numeric-bin": {
             "name": "constant.numeric.bin.hexpat",
@@ -262,15 +262,15 @@
         },
         "constant-numeric-float": {
             "name": "constant.numeric.float.hexpat",
-            "match": "\\b-?\\d+\\.\\d*F\\b"
+            "match": "\\s*\\b-?\\d+\\.\\d*F\\b"
         },
         "constant-numeric-double": {
             "name": "constant.numeric.double.hexpat",
-            "match": "\\b-?\\d+\\.\\d*D?\\b"
+            "match": "\\s*\\b-?\\d+\\.\\d*D?\\b"
         },
         "constant-language-boolean": {
             "name": "constant.language.bool.hexpat",
-            "match": "\\b(true|false)\\b"
+            "match": "\\s*\\b(true|false)\\b"
         },
         "directive": {
             "name": "meta.preprocessor.directive.hexpat",
@@ -325,11 +325,11 @@
         },
         "struct": {
             "name": "keyword.declaration.struct.hexpat",
-            "match": "\\bstruct\\b"
+            "match": "\\s*\\bstruct\\b"
         },
         "bitfield": {
             "name": "keyword.declaration.bitfield.hexpat",
-            "match": "\\bbitfield\\b"
+            "match": "\\s*\\bbitfield\\b"
         },
         "operator": {
             "name": "keyword.operator.hexpat",
@@ -345,7 +345,7 @@
         },
         "typeoperator": {
             "name": "entity.name.function.hexpat",
-            "match": "\\b(addressof|sizeof)\\b"
+            "match": "\\s*\\b(addressof|sizeof)\\b"
         },
         "member-access": {
             "name": "punctuation.operator.access.dot.hexpat",
@@ -353,11 +353,11 @@
         },
         "parent": {
             "name": "variable.language.parent.hexpat",
-            "match": "\\bparent\\b"
+            "match": "\\s*\\bparent\\b"
         },
         "this": {
             "name": "variable.language.this.hexpat",
-            "match": "\\bthis\\b"
+            "match": "\\s*\\bthis\\b"
         },
         "dollar": {
             "name": "variable.language.dollar.hexpat",

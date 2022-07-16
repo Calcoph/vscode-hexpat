@@ -2,7 +2,7 @@
     "name": "vscode-hexpat",
     "displayName": "Imhex Hexpat support",
     "description": "Syntax highlightin for Imhex's pattern language",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "engines": {
         "vscode": "^1.68.0"
     },

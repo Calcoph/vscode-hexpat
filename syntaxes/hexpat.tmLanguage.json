@@ -9,6 +9,7 @@
 	"repository": {
         "expression": {
             "patterns": [
+                {"include": "#small-patterns"},
                 {"include": "#struct-definition"},
                 {"include": "#bitfield-definition"},
                 {"include": "#keywords"},
@@ -20,23 +21,12 @@
                 {"include": "#line-comment"},
                 {"include": "#block-comment"},
                 {"include": "#endianness"},
-                {"include": "#type-unsigned"},
-                {"include": "#type-signed"},
-                {"include": "#type-float"},
-                {"include": "#type-special"},
                 {"include": "#string"},
                 {"include": "#char"},
                 {"include": "#attribute"},
                 {"include": "#array"},
                 {"include": "#semicolon"},
                 {"include": "#coma"},
-                {"include": "#constant-numeric-dec"},
-                {"include": "#constant-numeric-hex"},
-                {"include": "#constant-numeric-oct"},
-                {"include": "#constant-numeric-bin"},
-                {"include": "#constant-numeric-float"},
-                {"include": "#constant-numeric-double"},
-                {"include": "#constant-language-boolean"},
                 {"include": "#directive"},
                 {"include": "#struct"},
                 {"include": "#bitfield"},
@@ -49,33 +39,65 @@
                 {"include": "#namespace"}
             ]
         },
+        "primitive-type": {
+            "name": "storage.type.primitive",
+            "patterns": [
+                {"include": "#type-unsigned"},
+                {"include": "#type-signed"},
+                {"include": "#type-float"},
+                {"include": "#type-special"}
+            ]
+        },
+        "small-patterns": {
+            "patterns": [
+                {"include": "#keywords"},
+                {"include": "#struct"},
+                {"include": "#bitfield"},
+                {"include": "#endianness"},
+                {"include": "#primitive-type"},
+                {"include": "#constant"}
+            ]
+        },
+        "constant": {
+            "patterns": [
+                {"include": "#constant-numeric-dec"},
+                {"include": "#constant-numeric-hex"},
+                {"include": "#constant-numeric-oct"},
+                {"include": "#constant-numeric-bin"},
+                {"include": "#constant-numeric-float"},
+                {"include": "#constant-numeric-double"},
+                {"include": "#constant-language-boolean"}
+            ]
+        },
         "struct-definition": {
             "name": "meta.definition.struct.hexpat",
-            "begin": "(struct)\\s+([_a-zA-Z]+[_a-zA-Z0-9]*)\\s*({)",
+            "begin": "(?<=struct)\\s+([_a-zA-Z]+[_a-zA-Z0-9]*)\\s*({)",
             "end": "}",
             "beginCaptures": {
-                "1": { "name": "keyword.declaration.struct.hexpat" },
-                "2": { "name": "entity.name.type.struct.hexpat" },
-                "3": { "name": "punctuation.begin.bracket.curly.hexpat" }
+                "1": { "name": "entity.name.type.struct.hexpat" },
+                "2": { "name": "punctuation.begin.bracket.curly.hexpat" }
             },
             "endCaptrues": {
                 "0": { "name": "punctuation.end.bracket.curly.hexpat" }
             },
-            "patterns": [{ "include": "#expression" }]
+            "patterns": [
+                { "include": "#expression" }
+            ]
         },
         "bitfield-definition": {
             "name": "meta.definition.bitfield.hexpat",
-            "begin": "(bitfield)\\s+([_a-zA-Z]+[_a-zA-Z0-9]*)\\s*({)",
+            "begin": "(?<=bitfield)\\s+([_a-zA-Z]+[_a-zA-Z0-9]*)\\s*({)",
             "end": "}",
             "beginCaptures": {
-                "1": { "name": "keyword.declaration.bitfield.hexpat" },
-                "2": { "name": "entity.name.type.bitfield.hexpat" },
-                "3": { "name": "punctuation.begin.bracket.curly.hexpat" }
+                "1": { "name": "entity.name.type.bitfield.hexpat" },
+                "2": { "name": "punctuation.begin.bracket.curly.hexpat" }
             },
             "endCaptrues": {
                 "0": { "name": "punctuation.end.bracket.curly.hexpat" }
             },
-            "patterns": [{ "include": "#expression" }]
+            "patterns": [
+                { "include": "#expression" }
+            ]
         },
         "keywords": {
 			"patterns": [{
@@ -89,7 +111,7 @@
         },
         "function": {
             "name": "support.function.hexpat",
-            "match": "\\b([_a-zA-Z]+[_a-zA-Z0-9]*)\\b",
+            "match": "\\b([_a-zA-Z]+[_a-zA-Z0-9]*)\\s+\\(\\b",
             "captures": {
                 "1": { "name": "variable.function.hexpat"}
             }
@@ -109,10 +131,10 @@
             "patterns": [{ "include": "#expression" }]
         },
         "variable": {
-            "match": "^\\s*([_a-zA-Z]+[_a-zA-Z0-9]*)\\s+(?:\\s*([_a-zA-Z]+[_a-zA-Z0-9]*),?)*",
+            "match": "^\\s*(?<!u(?:8|16|32|64|128)|s(?:8|16|32|64|128)|(?:float|double)|(?:char|char16|bool|padding|str|auto))([_a-zA-Z]+[_a-zA-Z0-9]*)\\s+(?:\\s*([_a-zA-Z]+[_a-zA-Z0-9]*),?)*",
             "captures": {
                 "1": { "name": "storage.type.hexpat" },
-                "3": { "name": "variable.hexpat" }
+                "2": { "name": "variable.hexpat" }
             }
         },
         "scope": {

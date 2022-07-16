@@ -150,20 +150,32 @@
             "patterns": [{ "include": "#expression" }]
         },
         "type-unsigned": {
-            "match": "\\s*\\bu(8|16|32|64|128)\\b",
-            "name": "storage.type.unsigned.hexpat"
+            "match": "\\s*\\b(u(?:8|16|32|64|128))\\b(?:\\s*([_a-zA-Z]+[_a-zA-Z0-9]*),?)*",
+            "captures": {
+                "1": { "name": "storage.type.unsigned.hexpat" },
+                "0": { "name": "variable.hexpat" }
+            }
         },
         "type-signed": {
-            "name": "storage.type.signed.hexpat",
-            "match": "\\s*\\bs(8|16|32|64|128)\\b"
+            "match": "\\s*\\b(s(?:8|16|32|64|128))\\b(?:\\s*([_a-zA-Z]+[_a-zA-Z0-9]*),?)*",
+            "captures": {
+                "1": { "name": "storage.type.signed.hexpat" },
+                "0": { "name": "variable.hexpat" }
+            }
         },
         "type-float": {
-            "name": "storage.type.float.hexpat",
-            "match": "\\s*\\b(float|double)\\b"
+            "match": "\\s*\\b(float|double)\\b(?:\\s*([_a-zA-Z]+[_a-zA-Z0-9]*),?)*",
+            "captures": {
+                "1": { "name": "storage.type.float.hexpat" },
+                "0": { "name": "variable.hexpat" }
+            }
         },
         "type-special": {
-            "name": "storage.type.special.hexpat",
-            "match": "\\s*\\b(char|char16|bool|padding|str|auto)\\b"
+            "match": "\\s*\\b(char|char16|bool|padding|str|auto)\\b(?:\\s*([_a-zA-Z]+[_a-zA-Z0-9]*),?)*",
+            "captures": {
+                "1": { "name": "storage.type.special.hexpat" },
+                "0": { "name": "variable.hexpat" }
+            }
         },
         "endianness": {
             "name": "storage.modifier.endianness.hexpat",

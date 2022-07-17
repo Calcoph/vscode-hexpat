@@ -9,11 +9,20 @@
 	"repository": {
         "toplevel-expression": {
             "patterns": [
-                {"include": "#expression"},
+                {"include": "#operatorless-expression"},
+                {"include": "#operator-expression"},
+                {"include": "#operator"},
                 {"include": "#variable-declaration"}
             ]
         },
         "expression": {
+            "patterns": [
+                {"include": "#operatorless-expression"},
+                {"include": "#operator-expression"},
+                {"include": "#operator"}
+            ]
+        },
+        "operatorless-expression": {
             "patterns": [
                 {"include": "#function-definition"},
                 {"include": "#struct-definition"},
@@ -36,7 +45,6 @@
                 {"include": "#directive"},
                 {"include": "#struct"},
                 {"include": "#bitfield"},
-                {"include": "#operator"},
                 {"include": "#typeoperator"},
                 {"include": "#member-access"},
                 {"include": "#parent"},
@@ -48,7 +56,6 @@
         },
         "small-patterns": {
             "patterns": [
-                {"include": "#keyword"},
                 {"include": "#struct"},
                 {"include": "#bitfield"},
                 {"include": "#constant"},
@@ -69,7 +76,7 @@
         "struct-definition": {
             "name": "meta.definition.struct.hexpat",
             "begin": "\\b(struct)\\s+([_a-zA-Z]+[_a-zA-Z0-9]*)\\s*({)",
-            "end": "}",
+            "end": "};",
             "beginCaptures": {
                 "1": { "name": "keyword.declaration.struct.hexpat" },
                 "2": { "name": "entity.name.type.struct.hexpat" },
@@ -187,33 +194,33 @@
                 },
                 {
                     "name": "storage.modifier.endianness.hexpat",
-                    "match": "\\s*\\b(be|le)\\b"
+                    "match": "\\b\\s*(be|le)\\b"
                 },
                 {
                     "patterns": [
                         {
-                            "match": "\\s*\\b(u(?:8|16|32|64|128))\\b(?:\\s*([_a-zA-Z]+[_a-zA-Z0-9]*),?)*",
+                            "match": "\\b\\s*(u(?:8|16|32|64|128))\\s+(?:([_a-zA-Z]+[_a-zA-Z0-9]*)(?:,\\s*|\\s+))*",
                             "captures": {
                                 "1": { "name": "storage.type.unsigned.hexpat" },
                                 "0": { "name": "variable.hexpat" }
                             }
                         },
                         {
-                            "match": "\\s*\\b(s(?:8|16|32|64|128))\\b(?:\\s*([_a-zA-Z]+[_a-zA-Z0-9]*),?)*",
+                            "match": "\\b\\s*(s(?:8|16|32|64|128))\\s+(?:([_a-zA-Z]+[_a-zA-Z0-9]*)(?:,\\s*|\\s+))*",
                             "captures": {
                                 "1": { "name": "storage.type.signed.hexpat" },
                                 "0": { "name": "variable.hexpat" }
                             }
                         },
                         {
-                            "match": "\\s*\\b(float|double)\\b(?:\\s*([_a-zA-Z]+[_a-zA-Z0-9]*),?)*",
+                            "match": "\\b\\s*(float|double)\\s+(?:([_a-zA-Z]+[_a-zA-Z0-9]*)(?:,\\s*|\\s+))*",
                             "captures": {
                                 "1": { "name": "storage.type.float.hexpat" },
                                 "0": { "name": "variable.hexpat" }
                             }
                         },
                         {
-                            "match": "\\s*\\b(char|char16|bool|padding|str|auto)\\b(?:\\s*([_a-zA-Z]+[_a-zA-Z0-9]*),?)*",
+                            "match": "\\b\\s*(char|char16|bool|padding|str|auto)\\s+(?:([_a-zA-Z]+[_a-zA-Z0-9]*)(?:,\\s*|\\s+))*",
                             "captures": {
                                 "1": { "name": "storage.type.special.hexpat" },
                                 "0": { "name": "variable.hexpat" }
@@ -222,7 +229,7 @@
                     ]
                 },
                 {
-                    "match": "\\s*\\b([_a-zA-Z]+?[_a-zA-Z0-9]*)\\b(?:\\s*([_a-zA-Z]+[_a-zA-Z0-9]*),?)*",
+                    "match": "\\s*\\b([_a-zA-Z]+?[_a-zA-Z0-9]*)\\s+(?:([_a-zA-Z]+[_a-zA-Z0-9]*)(?:,\\s*|\\s+))*",
                     "captures": {
                         "1": { "name": "storage.type.hexpat" },
                         "0": { "name": "variable.hexpat" }
@@ -324,7 +331,7 @@
         },
         "attribute": {
             "name": "meta.attribute.hexpat",
-            "begin": "\\[{2}",
+            "begin": "\\b\\s*\\[{2}",
             "end": "\\]{2}",
             "beginCaptures": {
                 "0": { "name": "punctuation.attribute.begin.brackets.square.hexpat" }
@@ -336,8 +343,8 @@
         },
         "array": {
             "name": "meta.access.brackets.square.hexpat",
-            "begin": "\\[{1}",
-            "end": "\\]{1}",
+            "begin": "\\b\\s*\\[",
+            "end": "\\]",
             "beginCaptures": {
                 "0": { "name": "punctuation.access.begin.brackets.square.hexpat" }
             },
@@ -443,7 +450,21 @@
         },
         "operator": {
             "name": "keyword.operator.hexpat",
-            "match": "(\\+|-|\\*|/|%|>>|<<|~|&|\\||\\^|==|!=|>|<|>=|<=|!|&&|\\|\\||\\^\\^|=|@)"
+            "match": "(\\+|\\*|/|%|>>|<<|~|&|\\||\\^|==|!=|>|<|>=|<=|!|&&|\\|\\||\\^\\^|=|@)"
+        },
+        "operator-expression": {
+            "match": "\\s*\\b(.*)\\s*(\\+|\\*|/|%|>>|<<|~|&|\\||\\^|==|!=|>|<|>=|<=|!|&&|\\|\\||\\^\\^|=|@)\\s*(.*)?",
+            "captures": {
+                "1": {"patterns": [
+                    {"include": "#operatorless-expression"},
+                    {"include": "#variable"}
+                ]},
+                "2": {"name": "keyword.operator.hexpat"},
+                "3": {"patterns": [
+                    {"include": "#operatorless-expression"},
+                    {"include": "#variable"}
+                ]}
+            }
         },
         "namespace": {
             "name": "meta.access.namespace.hexpat",

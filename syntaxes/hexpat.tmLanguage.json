@@ -3,17 +3,25 @@
 	"name": "Hexpat",
 	"patterns": [
         {
-            "include": "#expression"
+            "include": "#toplevel-expression"
         }
 	],
 	"repository": {
+        "toplevel-expression": {
+            "patterns": [
+                {"include": "#expression"},
+                {"include": "#variable-declaration"}
+            ]
+        },
         "expression": {
             "patterns": [
                 {"include": "#function-definition"},
                 {"include": "#struct-definition"},
                 {"include": "#bitfield-definition"},
+                {"include": "#if-statement"},
+                {"include": "#while-loop"},
+                {"include": "#function-call"},
                 {"include": "#keyword"},
-                {"include": "#function"},
                 {"include": "#paren-expression"},
                 {"include": "#scope"},
                 {"include": "#line-comment"},
@@ -35,7 +43,6 @@
                 {"include": "#this"},
                 {"include": "#dollar"},
                 {"include": "#namespace"},
-                {"include": "#variable-declaration"},
                 {"include": "#small-patterns"}
             ]
         },
@@ -72,7 +79,7 @@
                 "0": { "name": "punctuation.end.bracket.curly.hexpat" }
             },
             "patterns": [
-                { "include": "#expression" }
+                { "include": "#toplevel-expression" }
             ]
         },
         "bitfield-definition": {
@@ -88,16 +95,16 @@
                 "0": { "name": "punctuation.end.bracket.curly.hexpat" }
             },
             "patterns": [
-                { "include": "#expression" }
+                { "include": "#toplevel-expression" }
             ]
         },
         "function-definition": {
             "name": "meta.definition.function.hexpat",
-            "begin": "\\b(fn)\\s+([_a-zA-Z]+[_a-zA-Z0-9]*)\\s*(\\()(.*)(\\))\\s*({?)",
+            "begin": "\\s*\\b(fn)\\s+([_a-zA-Z]+[_a-zA-Z0-9]*)\\s*(\\()(.*)(\\))\\s*({?)",
             "end": "\\}?",
             "beginCaptures": {
                 "1": { "name": "keyword.declaration.function.hexpat" },
-                "2": { "name": "entity.name.type.function.hexpat" },
+                "2": { "name": "entity.name.function.hexpat" },
                 "3": { "name": "punctuation.begin.bracket.round.hexpat" },
                 "4": {
                     "patterns": [{"include": "#function-parameters"}]
@@ -109,7 +116,7 @@
                 "0": { "name": "punctuation.end.bracket.curly.hexpat" }
             },
             "patterns": [
-                {"include": "#expression"}
+                {"include": "#toplevel-expression"}
             ]
         },
         "function-parameters": {
@@ -133,8 +140,43 @@
                 }
             ]
         },
+        "if-statement": {
+            "begin": "\\s*\\b(if)\\s*(\\()",
+            "end": "\\)",
+            "beginCaptures": {
+                "1": { "name": "keyword.control.hexpat" },
+                "2": { "name": "punctuation.begin.bracket.round.hexpat" }
+            },
+            "endCaptures": {
+                "1": { "name": "punctuation.end.bracket.round.hexpat" }
+            },
+            "patterns": [{"include": "#expression"}]
+        },
+        "while-loop": {
+            "begin": "\\s*\\b(while)\\s*(\\()(.*?)(\\))\\s*({?)",
+            "end": "\\s*\\b\\}?",
+            "beginCaptures": {
+                "1": { "name": "keyword.control.hexpat" },
+                "2": { "name": "punctuation.begin.bracket.round.hexpat" },
+                "3": {
+                    "patterns": [{"include": "#expression"}]
+                },
+                "4": { "name": "punctuation.end.bracket.round.hexpat" },
+                "5": { "name": "punctuation.begin.bracket.curly.hexpat" }
+            },
+            "endCaptrues": {
+                "0": { "name": "punctuation.end.bracket.curly.hexpat" }
+            },
+            "patterns": [{"include": "#toplevel-expression"}]
+        },
         "variable-declaration": {
             "patterns": [
+                {
+                    "match": "(?<=@)\\s*\\b([_a-zA-Z]+[_a-zA-Z0-9]*)",
+                    "captures": {
+                        "1": {"name": "variable.hexpat"}
+                    }
+                },
                 {
                     "name": "storage.modifier.endianness.hexpat",
                     "match": "\\s*\\b(be|le)\\b"
@@ -182,13 +224,13 @@
         },
         "keyword": {
             "name": "keyword.control.hexpat",
-            "match": "\\s*\\b(using|return|break|continue|in|out)\\b"
+            "match": "\\s*\\b(using|return|if|else|while|for|break|continue|in|out)\\b"
 		},
         "keyword-declaration": {
             "name": "keyword.definition.hexpat",
-			"match": "\\s*\\b(union|enum|if|else|while|for|fn|namespace)\\b"
+			"match": "\\s*\\b(union|enum|fn|namespace)\\b"
         },
-        "function": {
+        "function-call": {
             "name": "support.function.hexpat",
             "match": "\\s*\\b([_a-zA-Z]+[_a-zA-Z0-9]*)\\s+\\(\\b",
             "captures": {
@@ -221,7 +263,7 @@
                 "0": { "name": "punctuation.end.bracket.curly.hexpat" }
             },
             "name": "scope.group.hexpat",
-            "patterns": [{ "include": "#expression" }]
+            "patterns": [{ "include": "#toplevel-expression" }]
         },
         "line-comment": {
             "name": "comment.line.double-slash.hexpat",

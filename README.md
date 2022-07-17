@@ -6,7 +6,7 @@ Syntax highlighting.
 
 ## How to Install
 
-The extension is now availble on vscode's extension marketplace. [here](https://marketplace.visualstudio.com/items?itemName=calcoph.vscode-hexpat)
+The extension is now availble on vscode's extension marketplace. [here.](https://marketplace.visualstudio.com/items?itemName=calcoph.vscode-hexpat)
 
 ## Interesting token names
 

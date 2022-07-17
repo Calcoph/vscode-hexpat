@@ -6,15 +6,7 @@ Syntax highlighting.
 
 ## How to Install
 
-There are 2 main methods.
-
-### Option 1
-1. Open the .vsix's containing folder in vscode.
-2. Right click the .vsix file.
-3. "Install extension".
-
-### Option 2
-`code --install-extension <extension_name>.vsix`
+The extension is now availble on vscode's extension marketplace. [here](https://marketplace.visualstudio.com/items?itemName=calcoph.vscode-hexpat)
 
 ## Interesting token names
 

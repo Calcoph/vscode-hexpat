@@ -169,12 +169,20 @@
             },
             "patterns": [{"include": "#toplevel-expression"}]
         },
+        "variable": {
+            "match": "\\s*\\b([_a-zA-Z]+[_a-zA-Z0-9]*)",
+            "captures": {
+                "1": {"name": "variable.hexpat"}
+            }
+        },
         "variable-declaration": {
             "patterns": [
                 {
-                    "match": "(?<=@)\\s*\\b([_a-zA-Z]+[_a-zA-Z0-9]*)",
+                    "match": "(?<=@)(.*)",
                     "captures": {
-                        "1": {"name": "variable.hexpat"}
+                        "1": {"patterns": [
+                            {"include": "#variable"}
+                        ]}
                     }
                 },
                 {
